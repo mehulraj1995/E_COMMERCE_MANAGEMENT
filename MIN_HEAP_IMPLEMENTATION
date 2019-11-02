@@ -1,0 +1,52 @@
+class Minheap{
+	vector<item> v;
+
+	void heapify(int i){
+		   int min_index = i;
+		   int left_child = 2*i;
+		   int right_child = left_child + 1;
+		   if(left_child<v.size() && v[left_child].getprice()<v[min_index].getprice()){
+			      min_index = left_child;
+		   }
+		   if(right_child<v.size() && v[right_child].getprice()<v[min_index].getprice()){
+		 	     min_index = right_child;
+		   }
+
+		   if(min_index!=i){
+			     swap(v[i],v[min_index]);
+			     heapify(min_index);
+		   }
+	}
+
+    public:
+	       Minheap(){
+	          item r("NULL",0,"NULL",0);
+		      v.push_back(r);
+	 }
+
+	void push(item data){
+		  v.push_back(data);
+		  int index = v.size()-1;
+		  int parent = index/2;
+		  while(index>1 && v[index].getprice()<v[parent].getprice()){
+			      swap(v[index],v[parent]);
+			      index = parent;
+			      parent = parent/2;
+		  }
+	 }
+
+	void pop(){ 
+		   int last_index = v.size()-1;
+		   swap(v[last_index],v[1]);
+		   v.pop_back();
+           heapify(1);
+	}
+
+	item top(){
+		   return v[1];
+	}
+
+	bool empty(){
+		   return v.size()==1;
+	}
+};
